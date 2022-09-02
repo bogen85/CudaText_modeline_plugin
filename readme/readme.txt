@@ -5,7 +5,7 @@ Similar to VIM modelines https://howtoforge.com/tutorial/vim-modeline-settings b
 
 Checks for modeline (typically in a comment) in the first 5 lines of the text file.
 
-Modeline is read from the the remainder of the first line containing " CudaText: " (no quotes).
+Modeline is read from the remainder of the first line containing " CudaText: " (no quotes).
 
 Modeline uses the HTML Cookie list format.
 See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cookie#syntax
