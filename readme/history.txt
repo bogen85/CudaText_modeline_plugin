@@ -1,0 +1,5 @@
+# CudaText: lexer_file=None; tab_size=2; tab_spaces=Yes;
+
+2022.09.02
++ init
++ fix: Address issues raised by Alexy-T to make plugin conform with existing plugin conventions.
