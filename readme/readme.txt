@@ -1,8 +1,7 @@
-# CudaText: lexer_file=None; tab_size=2; tab_spaces=Yes;
-
 Plugin for CudaText.
 Handles modeline processing, specific to CudaText.
 Similar to VIM modelines https://howtoforge.com/tutorial/vim-modeline-settings but using a different syntax.
+# CudaText: lexer_file=None; tab_size=2; tab_spaces=Yes;
 
 Checks for modeline (typically in a comment) in the first 5 lines of the text file.
 
