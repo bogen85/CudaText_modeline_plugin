@@ -21,7 +21,7 @@ Currently only 4 properties are accepted.
 
 Name        Value type                          Description
 ----        ----------                          -----------
-file_type   string                              lexer name
+lexer_file  string                              lexer name
 tab_size    integer                             tab width in spaces
 tab_spaces  boolean (or fuzzy equivalent)       true for soft tabs (spaces), false for hard tabs.
 newline     string (one of "cr", "lf", "crlf")  line endings
