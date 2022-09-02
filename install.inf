@@ -1,11 +1,10 @@
 [info]
 title=modeline
-desc=(Fill the description)
+desc=Modeline support, similar to VIM modelines but specific to CudaText.
 type=cudatext-plugin
 subdir=cuda_modeline
-homepage=(Fill the GitHub repo URL)
+homepage=https://github.com/bogen85/CudaText_modeline_plugin
 
 [item1]
 section=events
 events=on_save,on_open
-
