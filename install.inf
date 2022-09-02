@@ -1,0 +1,11 @@
+[info]
+title=modeline
+desc=(Fill the description)
+type=cudatext-plugin
+subdir=cuda_modeline
+homepage=(Fill the GitHub repo URL)
+
+[item1]
+section=events
+events=on_save,on_open
+
