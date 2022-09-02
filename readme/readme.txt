@@ -3,6 +3,10 @@ Handles modeline processing, specific to CudaText.
 Similar to VIM modelines https://howtoforge.com/tutorial/vim-modeline-settings but using a different syntax.
 # CudaText: lexer_file=None; tab_size=2; tab_spaces=Yes;
 
+Author: bogen85
+Homepage: https://github.com/bogen85
+Plugin homepage: https://github.com/bogen85/CudaText_modeline_plugin
+
 Checks for modeline (typically in a comment) in the first 5 lines of the text file.
 
 Modeline is read from the remainder of the first line containing " CudaText: " (no quotes).
