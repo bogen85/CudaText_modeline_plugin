@@ -1,5 +1,5 @@
 [info]
-title=modeline
+title=Modeline
 desc=Modeline support, similar to VIM modelines but specific to CudaText.
 type=cudatext-plugin
 subdir=cuda_modeline
