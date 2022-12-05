@@ -44,15 +44,12 @@ PROPERTY_SET = {
     "NEWLINE": (PROP_NEWLINE, newline_prop),
 }
 
-
-def do_find_modeline(ed):
-    nlines = min(MAX_READ_LINES, ed.get_line_count())
-    lines = [ed.get_text_line(i) for i in range(nlines)]
-
+def find_modeline(ed, start, nlines):
+    lines = [ed.get_text_line(i) for i in range(start, nlines)]
     for index, line in enumerate(lines):
         mk_index = line.find(MODE_KEY)
         if -1 != mk_index:
-            mode_message(f'{ed.get_filename()}:{index+1}: {line}')
+            mode_message(f'{ed.get_filename()}:{start+index+1}: {line}')
             modeline = line[mk_index+MODE_KEY_LEN:]
             modes = cookies.SimpleCookie(modeline)
 
@@ -71,7 +68,18 @@ def do_find_modeline(ed):
 
                 mode_message(f'key "{prop0}" ({prop}) is unknown')
 
-            return
+            return True
+    return False
+
+def do_find_modeline(ed):
+    line_count = ed.get_line_count()
+
+    nlines = min(MAX_READ_LINES, line_count)
+
+    if find_modeline(ed, 0, nlines) or (nlines < MAX_READ_LINES):
+        return
+
+    find_modeline(ed, line_count - nlines, line_count)
 
 class Command:
     def on_open(self, ed_self):
