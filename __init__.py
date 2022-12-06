@@ -2,6 +2,7 @@
 
 import os
 from cudatext import *
+import cudax_lib as apx
 from http import cookies
 
 MODE_KEY = " CudaText: "
@@ -72,14 +73,24 @@ def find_modeline(ed, start, limit):
     return False
 
 def do_find_modeline(ed):
+    filename = ed.get_filename()
+    if not filename:
+        return
+
     line_count = ed.get_line_count()
 
     nlines = min(MAX_READ_LINES, line_count)
 
-    if find_modeline(ed, 0, nlines) or (nlines < MAX_READ_LINES):
+    if find_modeline(ed, 0, nlines) or (nlines != MAX_READ_LINES):
         return
 
-    find_modeline(ed, line_count - nlines, line_count)
+    file_mb = float(os.path.getsize(filename)) / (1024.0*1024.0)
+    max_lexer_mb = float(apx.get_opt("ui_max_size_lexer"))
+    if file_mb > max_lexer_mb:
+        mode_message(f'{filename}: skipping, file size in MB ({file_mb:.3f}) > max lexer MB ({max_lexer_mb})')
+        return
+
+    find_modeline(ed, line_count - MAX_READ_LINES, line_count)
 
 class Command:
     def on_open(self, ed_self):
