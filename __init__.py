@@ -47,12 +47,12 @@ PROPERTY_SET = {
     "NEWLINE": (PROP_NEWLINE, newline_prop),
 }
 
-def find_modeline(ed, start, limit):
+def find_modeline(ed, filename, start, limit):
     lines = [ed.get_text_line(i) for i in range(start, limit)]
     for index, line in enumerate(lines):
         mk_index = line.find(MODE_KEY)
         if -1 != mk_index:
-            mode_message(f'{ed.get_filename()}:{start+index+1}: {line}')
+            mode_message(f'{filename}:{start+index+1}: {line}')
             modeline = line[mk_index+MODE_KEY_LEN:]
             modes = cookies.SimpleCookie(modeline)
 
@@ -79,22 +79,22 @@ def do_find_modeline(ed):
     if not filename:
         return
 
-    line_count = ed.get_line_count()
-
-    if line_count <= MAX_READ_LINES:
-        find_modeline(ed, 0, line_count)
-        return
-
-    if find_modeline(ed, 0, min(MAX_TOP_READ_LINES, line_count)):
-        return
-
     file_mb = float(os.path.getsize(filename)) / 1048576.0
     max_lexer_mb = apx.get_opt("ui_max_size_lexer")
     if file_mb > float(max_lexer_mb):
         mode_message(f'{filename}: skipping, file size of {file_mb:.3f} MB > max lexer size of {max_lexer_mb} MB')
         return
 
-    find_modeline(ed, line_count - MAX_BOTTOM_READ_LINES, line_count)
+    line_count = ed.get_line_count()
+
+    if line_count <= MAX_READ_LINES:
+        find_modeline(ed, filename, 0, line_count)
+        return
+
+    if find_modeline(ed, filename, 0, min(MAX_TOP_READ_LINES, line_count)):
+        return
+
+    find_modeline(ed, filename, line_count - MAX_BOTTOM_READ_LINES, line_count)
 
 class Command:
     def on_open(self, ed_self):
