@@ -1,5 +1,8 @@
-# CudaText: lexer_file=None; tab_size=2; tab_spaces=Yes;
+# CudaText: lexer_file="Search results"; tab_size=2; tab_spaces=Yes;
 
 2022.09.02
 + init
 + fix: Address issues raised by Alexy-T to make plugin conform with existing plugin conventions.
+
+2022.12.06
++ enhancment: Read from bottom of file if modeline not found at the top of the file.

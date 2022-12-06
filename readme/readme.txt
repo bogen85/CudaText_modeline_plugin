@@ -7,7 +7,12 @@ Author: bogen85
 Homepage: https://github.com/bogen85
 Plugin homepage: https://github.com/bogen85/CudaText_modeline_plugin
 
-Checks for modeline (typically in a comment) in the first 5 lines of the text file.
+Modeline will only be checked for if the file size is <= "ui_max_size_lexer" (in MB).
+
+Modeline will typically be in a comment.
+
+If the file only contains 10 lines or less, then all lines will be checked.
+Otherwise the top 5 lines will checked for first, and if not found, then the bottom 5 lines will be checked.
 
 Modeline is read from the remainder of the first line containing " CudaText: " (no quotes).
 

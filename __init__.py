@@ -2,12 +2,15 @@
 
 import os
 from cudatext import *
+import cudax_lib as apx
 from http import cookies
 
 MODE_KEY = " CudaText: "
 MODE_KEY_LEN = len(MODE_KEY)
 MODE_LABEL = MODE_KEY.strip()
-MAX_READ_LINES = 5
+MAX_TOP_READ_LINES = 5
+MAX_BOTTOM_READ_LINES = 5
+MAX_READ_LINES = MAX_TOP_READ_LINES + MAX_BOTTOM_READ_LINES
 
 def mode_message(e):
     print(f'{__name__}: {MODE_LABEL} {e.strip()}')
@@ -44,15 +47,12 @@ PROPERTY_SET = {
     "NEWLINE": (PROP_NEWLINE, newline_prop),
 }
 
-
-def do_find_modeline(ed):
-    nlines = min(MAX_READ_LINES, ed.get_line_count())
-    lines = [ed.get_text_line(i) for i in range(nlines)]
-
+def find_modeline(ed, filename, start, limit):
+    lines = [ed.get_text_line(i) for i in range(start, limit)]
     for index, line in enumerate(lines):
         mk_index = line.find(MODE_KEY)
         if -1 != mk_index:
-            mode_message(f'{ed.get_filename()}:{index+1}: {line}')
+            mode_message(f'{filename}:{start+index+1}: {line}')
             modeline = line[mk_index+MODE_KEY_LEN:]
             modes = cookies.SimpleCookie(modeline)
 
@@ -71,7 +71,30 @@ def do_find_modeline(ed):
 
                 mode_message(f'key "{prop0}" ({prop}) is unknown')
 
-            return
+            return True
+    return False
+
+def do_find_modeline(ed):
+    filename = ed.get_filename()
+    if not filename:
+        return
+
+    file_mb = float(os.path.getsize(filename)) / 1048576.0
+    max_lexer_mb = apx.get_opt("ui_max_size_lexer")
+    if file_mb > float(max_lexer_mb):
+        mode_message(f'{filename}: skipping, file size of {file_mb:.3f} MB > max lexer size of {max_lexer_mb} MB')
+        return
+
+    line_count = ed.get_line_count()
+
+    if line_count <= MAX_READ_LINES:
+        find_modeline(ed, filename, 0, line_count)
+        return
+
+    if find_modeline(ed, filename, 0, MAX_TOP_READ_LINES):
+        return
+
+    find_modeline(ed, filename, line_count - MAX_BOTTOM_READ_LINES, line_count)
 
 class Command:
     def on_open(self, ed_self):
