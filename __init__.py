@@ -44,8 +44,8 @@ PROPERTY_SET = {
     "NEWLINE": (PROP_NEWLINE, newline_prop),
 }
 
-def find_modeline(ed, start, nlines):
-    lines = [ed.get_text_line(i) for i in range(start, nlines)]
+def find_modeline(ed, start, limit):
+    lines = [ed.get_text_line(i) for i in range(start, limit)]
     for index, line in enumerate(lines):
         mk_index = line.find(MODE_KEY)
         if -1 != mk_index:
