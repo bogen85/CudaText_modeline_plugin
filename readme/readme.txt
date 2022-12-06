@@ -9,7 +9,7 @@ Plugin homepage: https://github.com/bogen85/CudaText_modeline_plugin
 
 Modeline will only be checked for if the file size is <= "ui_max_size_lexer" (in MB).
 
-Modeline will typcially be in a comment.
+Modeline will typically be in a comment.
 
 If the file only contains 10 lines or less, then all lines will be checked.
 Otherwise the top 5 lines will checked for first, and if not found, then the bottom 5 lines will be checked.
