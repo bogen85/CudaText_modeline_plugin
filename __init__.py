@@ -91,7 +91,7 @@ def do_find_modeline(ed):
         find_modeline(ed, filename, 0, line_count)
         return
 
-    if find_modeline(ed, filename, 0, min(MAX_TOP_READ_LINES, line_count)):
+    if find_modeline(ed, filename, 0, MAX_TOP_READ_LINES):
         return
 
     find_modeline(ed, filename, line_count - MAX_BOTTOM_READ_LINES, line_count)
