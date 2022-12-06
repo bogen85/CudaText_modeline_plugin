@@ -8,7 +8,9 @@ from http import cookies
 MODE_KEY = " CudaText: "
 MODE_KEY_LEN = len(MODE_KEY)
 MODE_LABEL = MODE_KEY.strip()
-MAX_READ_LINES = 5
+MAX_TOP_READ_LINES = 5
+MAX_BOTTOM_READ_LINES = 5
+MAX_READ_LINES = MAX_TOP_READ_LINES + MAX_BOTTOM_READ_LINES
 
 def mode_message(e):
     print(f'{__name__}: {MODE_LABEL} {e.strip()}')
@@ -79,16 +81,20 @@ def do_find_modeline(ed):
 
     line_count = ed.get_line_count()
 
-    if find_modeline(ed, 0, min(MAX_READ_LINES, line_count)) or (line_count <= MAX_READ_LINES):
+    if line_count <= MAX_READ_LINES:
+        find_modeline(ed, 0, line_count)
         return
 
-    file_mb = float(os.path.getsize(filename)) / (1024.0*1024.0)
-    max_lexer_mb = float(apx.get_opt("ui_max_size_lexer"))
-    if file_mb > max_lexer_mb:
-        mode_message(f'{filename}: skipping, file size in MB ({file_mb:.3f}) > max lexer MB ({max_lexer_mb})')
+    if find_modeline(ed, 0, min(MAX_TOP_READ_LINES, line_count)):
         return
 
-    find_modeline(ed, line_count - MAX_READ_LINES, line_count)
+    file_mb = float(os.path.getsize(filename)) / 1048576.0
+    max_lexer_mb = apx.get_opt("ui_max_size_lexer")
+    if file_mb > float(max_lexer_mb):
+        mode_message(f'{filename}: skipping, file size of {file_mb:.3f} MB > max lexer size of {max_lexer_mb} MB')
+        return
+
+    find_modeline(ed, line_count - MAX_BOTTOM_READ_LINES, line_count)
 
 class Command:
     def on_open(self, ed_self):
