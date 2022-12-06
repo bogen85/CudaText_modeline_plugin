@@ -3,3 +3,6 @@
 2022.09.02
 + init
 + fix: Address issues raised by Alexy-T to make plugin conform with existing plugin conventions.
+
+2022.12.06
++ enhancment: Read from bottom of file if modeline not found at the top of the file.
