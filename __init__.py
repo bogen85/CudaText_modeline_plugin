@@ -79,9 +79,7 @@ def do_find_modeline(ed):
 
     line_count = ed.get_line_count()
 
-    nlines = min(MAX_READ_LINES, line_count)
-
-    if find_modeline(ed, 0, nlines) or (nlines != MAX_READ_LINES):
+    if find_modeline(ed, 0, min(MAX_READ_LINES, line_count)) or (line_count <= MAX_READ_LINES):
         return
 
     file_mb = float(os.path.getsize(filename)) / (1024.0*1024.0)
