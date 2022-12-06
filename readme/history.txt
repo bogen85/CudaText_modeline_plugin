@@ -1,4 +1,4 @@
-# CudaText: lexer_file=None; tab_size=2; tab_spaces=Yes;
+# CudaText: lexer_file="Search results"; tab_size=2; tab_spaces=Yes;
 
 2022.09.02
 + init
